@@ -1,30 +1,17 @@
-require_relative 'config_parser'
+require_relative 'request_parser'
 require_relative 'requester'
+require_relative 'switch_parser'
+require 'pp'
 
-USAGE = <<ENDUSAGE
-Usage:
-  pastaman [-h] [-hn] [-w webhook_url] [-p port] [-c]
-ENDUSAGE
+# parse the command line arguments
+options = SwitchParser.parse(ARGV)
 
-HELP = <<ENDHELP
-  -h,  --help         Show this help.
-  -w,  --webhook-url  The webhook url (eg. "/facebook/webhook").
-  -hn, --hostname     The webhook's hostname (eg. "localhost")
-  -p,  --port         The hostname's port, (eg. 8080)
-  -c,  --config       The config file's name
-  -r,  --requests     The request file's name
-ENDHELP
+# parse & get request
+config_parser = RequestParser.new options.requests_file
+request = config_parser.parse_and_get_request options
 
-$default_config_file_name = "config.json"
-$requests_file_name = "requests.json"
+# do the request
+response = Requester.make_request request
 
-$url = ARGV[0]
-$request_name = ARGV[1]
-
-config_parser = ConfigParser.new $requests_file_name
-
-json_requests = config_parser.parse_json_config_file
-requests = config_parser.get_requests_from_config json_requests
-response = Requester.make_request requests[$request_name], $url
-
+# print the response
 Requester.print_response response
