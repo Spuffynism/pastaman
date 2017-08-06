@@ -14,7 +14,7 @@ C:\pastaman>messenger.rb localhost:8080 photo
 ```
 
 ## TODO
-- Add `photos` and `text_messages` requests to a requests.json file
-- Make the webhook url more configurable - all requests are currently sent to `<webhook_url>/facebook/webhook`
-- Load default configurations from a config.json file
+- Add `photos` and `text_messages` requests to the requests.json file
+- Make use of all command line arguments
+- Add ability to load default configurations from config file
 - Write tests
