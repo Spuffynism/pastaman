@@ -10,6 +10,7 @@ class SwitchParser
   def self.parse(args)
     options = OpenStruct.new
     options.request = ""
+    options.times = 1
     options.config_file = DEFAULT_CONFIG_FILE
     options.requests_file = DEFAULT_REQUESTS_FILE
 
@@ -39,16 +40,23 @@ class SwitchParser
         options.uri = uri
       end
 
-      opts.on("-cf", "--config CONFIG_FILE", "The config file.") do |file|
+      opts.on("-cf", "--config CONFIG_FILE",
+              "The config file. Default is #{options.config_file}") do |file|
         options.config_file = file
       end
 
-      opts.on("-rf", "--requests REQUESTS_FILE", "The request file.") do |file|
+      opts.on("-rf", "--requests REQUESTS_FILE",
+              "The request file. Default is #{options.requests_file}") do |file|
         options.requests_file = file
       end
 
       opts.on("-r", "--request REQUEST", "The request's name (eg. \"text_message\"") do |name|
         options.request << name;
+      end
+
+      opts.on("-t", "--times [TIMES]", OptionParser::DecimalInteger,
+              "The number of times the request should be made. Default is #{options.times}.") do |times|
+        options.times = times
       end
 
       opts.on("-h", "--help", "Show this help.") do

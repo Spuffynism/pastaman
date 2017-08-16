@@ -13,10 +13,14 @@ class RequestParser
     json_requests = parse_json_config_file
     requests = get_requests_from_config json_requests
 
+    unless options.request
+      abort("request not specified")
+    end
+
     request = requests[options.request]
 
     unless request
-      abort("request not found " + options.request)
+      abort("request not found : " + options.request)
     end
 
     # code smell - feature envy

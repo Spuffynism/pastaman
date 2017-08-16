@@ -14,6 +14,6 @@ class Requester
 
   def self.print_response(response)
     puts response.code
-    puts response.each_header {|key, value| puts "\t#{key}:#{value}"}
+    puts response.each_header {|key, value| puts "#{key}:#{value}"}
   end
 end

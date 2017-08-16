@@ -1,7 +1,7 @@
 {
   "facebook_webhook_version": "v2.6",
   "requests": {
-    "text_message": {
+    "hello_message": {
       "route": "/facebook/webhook",
       "body": {
         "object": "page",
@@ -21,7 +21,7 @@
                 "message": {
                   "mid": "mid.$cAAFM_jj3asFjzKYym1dm2DiAjR28",
                   "seq": 299578,
-                  "text": "hello"
+                  "text": "trello -add card"
                 }
               }
             ]
