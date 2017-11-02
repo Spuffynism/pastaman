@@ -36,17 +36,21 @@ class SwitchParser
       end
 
       opts.on("-u", "--uri [URI]", URI,
-              "A complete [HOSTNAME]:[PORT][WEBHOOK] uri (Anything accepted by URI.parse)") do |uri|
+              "A complete [HOSTNAME]:[PORT][WEBHOOK] uri (or anything accepted by URI.parse)") do |uri|
         options.uri = uri
       end
 
       opts.on("-cf", "--config CONFIG_FILE",
               "The config file. Default is #{options.config_file}") do |file|
+        check_file_existence(file)
+
         options.config_file = file
       end
 
       opts.on("-rf", "--requests REQUESTS_FILE",
               "The request file. Default is #{options.requests_file}") do |file|
+        check_file_existence(file)
+
         options.requests_file = file
       end
 
@@ -68,4 +72,11 @@ class SwitchParser
     switch_parser.parse!(args)
     options
   end
+
+  private
+    def check_file_existence(file)
+      unless File.exists?(file) && File.file?(file)
+        abort("file : " + file + " does not exist or is a directory")
+      end
+    end
 end

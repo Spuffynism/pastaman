@@ -1,5 +1,8 @@
 require 'socket'
 
+# Simple server to which a facebook bot can respond to.
+# The responses are simply printed to the command-line.
+
 server = TCPServer.new('127.0.0.1', 3000)
 requests_nb = 0
 loop do
