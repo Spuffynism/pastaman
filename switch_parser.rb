@@ -74,7 +74,7 @@ class SwitchParser
   end
 
   private
-    def check_file_existence(file)
+    def self.check_file_existence(file)
       unless File.exists?(file) && File.file?(file)
         abort("file : " + file + " does not exist or is a directory")
       end

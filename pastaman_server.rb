@@ -3,14 +3,24 @@ require 'socket'
 # Simple server to which a facebook bot can respond to.
 # The responses are simply printed to the command-line.
 
-server = TCPServer.new('127.0.0.1', 3000)
+DEFAULT_IP = '127.0.0.1'
+DEFAULT_PORT = 3000
+
+server = TCPServer.new(DEFAULT_IP, DEFAULT_PORT)
 requests_nb = 0
+
+puts 'Listening on ' + DEFAULT_IP + ':' + DEFAULT_PORT.to_s
+
 loop do
   socket = server.accept
-  request = socket.gets
-
+  
   requests_nb += 1
-  STDERR.puts  "#{requests_nb} #{request}"
+  puts 'Request number ' + requests_nb.to_s
+  
+  while request = socket.gets
+    puts request.chomp
+    break if request =~ /^\s*$/
+  end
 
   response = "{\"response\":\"ok\"}"
 
