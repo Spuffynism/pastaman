@@ -21,7 +21,7 @@ class SwitchParser
       opts.separator "Specific options:"
 
       opts.on("-n", "--hostname [HOSTNAME]", String,
-              "The webhook's hostname (eg. \"localhost\").") do |name|
+              "The webhook's hostname (eg. localhost).") do |name|
         options.hostname = name
       end
 
@@ -36,7 +36,8 @@ class SwitchParser
       end
 
       opts.on("-u", "--uri [URI]", URI,
-              "A complete [HOSTNAME]:[PORT][WEBHOOK] uri (or anything accepted by URI.parse)") do |uri|
+              "A complete [HOSTNAME]:[PORT][WEBHOOK] uri (or anything " +
+                  "accepted by URI.parse)") do |uri|
         options.uri = uri
       end
 
@@ -54,12 +55,14 @@ class SwitchParser
         options.requests_file = file
       end
 
-      opts.on("-r", "--request REQUEST", "The request's name (eg. \"text_message\"") do |name|
+      opts.on("-r", "--request REQUEST", "The request's name (eg. " +
+          "text_message)") do |name|
         options.request << name;
       end
 
       opts.on("-t", "--times [TIMES]", OptionParser::DecimalInteger,
-              "The number of times the request should be made. Default is #{options.times}.") do |times|
+              "The number of times the request should be made. Default is " +
+                  "#{options.times}.") do |times|
         options.times = times
       end
 
@@ -74,9 +77,9 @@ class SwitchParser
   end
 
   private
-    def self.check_file_existence(file)
-      unless File.exists?(file) && File.file?(file)
-        abort("file : " + file + " does not exist or is a directory")
-      end
+  def self.check_file_existence(file)
+    unless File.exists?(file) && File.file?(file)
+      abort("file : " + file + " does not exist or is a directory")
     end
+  end
 end

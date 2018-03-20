@@ -1,5 +1,6 @@
 require 'json'
 require 'ostruct'
+require 'uri' # not sure if this is needed
 
 class RequestParser
 
@@ -10,23 +11,24 @@ class RequestParser
   attr_accessor :file_name
 
   def parse_and_get_request (options)
-    json_requests = parse_json_config_file
+    json_requests = parse_config_file @file_name
     requests = get_requests_from_config json_requests
 
     unless options.request
-      abort("request not specified")
+      raise Exception, "request not specified"
     end
 
+    # get the specific request
     request = requests[options.request]
 
     unless request
-      abort("request not found : " + options.request)
+      raise Exception, "request not found : " + options.request
     end
 
     # code smell - feature envy
+    # If an uri has been specified, use it. Otherwise, build it.
     if options.uri
-      pp options.uri
-      request["uri"] = URI::parse("http://" + options.uri.to_s)
+      request["uri"] = options.uri
     else
       request["uri"] = build_uri options.hostname, options.port, options.path
     end
@@ -34,21 +36,9 @@ class RequestParser
     request
   end
 
-  private def build_uri (host, port, path)
-    unless host
-      abort("host must be specified")
-    end
-
-    unless path
-      abort("path must be specified")
-    end
-
-    URI::HTTP.new(['http', nil, host, port, nil, path])
-  end
-
-  private def parse_json_config_file
+  private def parse_config_file file_name
     unless File.file?(file_name)
-      abort(file_name + " not found in directory")
+      raise Exception, (file_name + " not found in directory")
     end
 
     config_file_content = File.read(file_name)
@@ -57,12 +47,21 @@ class RequestParser
   end
 
   private def get_requests_from_config(config)
-    requests = config["requests"]
+    requests_location = config["requests"]
 
-    unless requests
-      abort("no requests found in " + @file_name)
+    unless requests_location
+      raise Exception, ("no requests found in " + @file_name)
     end
 
-    requests
+    requests_file = parse_config_file requests_location
+    requests_file["requests"]
+  end
+
+  private def build_uri (host, port, path)
+    unless host
+      raise Exception, ("host must be specified")
+    end
+
+    URI::HTTP.build(host: host, port: port, path: path)
   end
 end
