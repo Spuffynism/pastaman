@@ -3,12 +3,14 @@ require 'optparse/uri'
 require 'ostruct'
 
 DEFAULT_CONFIG_FILE = "config.json"
-DEFAULT_REQUESTS_FILE = "requests.json"
+DEFAULT_REQUESTS_FILE = "requests/requests.json"
 
 # parses command-line switches
 class SwitchParser
   def self.parse(args)
     options = OpenStruct.new
+    options.hostname = "localhost"
+    options.port = 80
     options.request = ""
     options.times = 1
     options.config_file = DEFAULT_CONFIG_FILE

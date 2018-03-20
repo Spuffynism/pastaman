@@ -47,14 +47,13 @@ class RequestParser
   end
 
   private def get_requests_from_config(config)
-    requests_location = config["requests"]
+    requests = config["requests"]
 
-    unless requests_location
+    unless requests
       raise Exception, ("no requests found in " + @file_name)
     end
 
-    requests_file = parse_config_file requests_location
-    requests_file["requests"]
+    requests
   end
 
   private def build_uri (host, port, path)
