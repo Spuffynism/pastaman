@@ -1,7 +1,20 @@
 require 'net/http'
 require 'uri'
 
+# Makes requests
 class Requester
+  # Makes and print a request
+  # Params:
+  # +request_config+:: the request configuration containing a uri and a body
+  def self.do_and_print(request_config)
+    response = make_request request_config
+    print_response response
+  end
+
+  private
+  # Makes a request and returns the response
+  # Params:
+  # +request_config+:: the request configuration containing a uri and a body
   def self.make_request(request_config)
     uri = request_config[:uri]
 
@@ -14,6 +27,9 @@ class Requester
     http.request(request)
   end
 
+  # Prints a request response
+  # Params:
+  # +response+:: the request's response
   def self.print_response(response)
     puts "Response:"
     puts response.code

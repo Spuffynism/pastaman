@@ -7,13 +7,8 @@ require 'pp'
 options = SwitchParser.parse(ARGV)
 
 # parse & get request
-config_parser = RequestParser.new options
-request = config_parser.parse_and_get_request
+parser = RequestParser.new options
+request = parser.parse_and_get_request
 
 # execute the request
-(1..options[:times]).each do |i|
-  response = Requester.make_request request
-
-  # print the response
-  Requester.print_response response
-end
+(1..options[:times]).each {|i| Requester.do_and_print request}

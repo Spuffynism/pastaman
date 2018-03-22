@@ -2,7 +2,7 @@ require 'optparse'
 require 'socket'
 
 # Simple server to which a facebook bot can respond to.
-# Requests made to this server are also printed to the command-line.
+# Requests made to this server are printed to the command-line.
 
 DEFAULT_HOST = "localhost"
 DEFAULT_PORT = 3000
@@ -16,12 +16,12 @@ OptionParser.new do |opts|
   opts.banner = "Usage: pastaman_server.rb [options]"
 
   opts.on("--host HOST", String,
-          "Specify the server's host. ex.: " + DEFAULT_HOST) do |v|
-    options[:host] = v
+          "Specify the server's host. Default is " + DEFAULT_HOST) do |host|
+    options[:host] = host
   end
   opts.on("-p", "--port PORT", Integer,
-          "Specify the server's port. ex.: " + DEFAULT_PORT.to_s) do |v|
-    options[:port] = v
+          "Specify the server's port. Default is " + DEFAULT_PORT.to_s) do |port|
+    options[:port] = port
   end
 
   opts.on("-h", "--help", "Print this help") do
