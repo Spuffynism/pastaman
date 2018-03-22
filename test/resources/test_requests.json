@@ -28,46 +28,6 @@
           }
         ]
       }
-    },
-    "test_photo": {
-      "route": "/facebook/webhook",
-      "body": {
-        "object": "page",
-        "entry": [
-          {
-            "id": "305722109839911",
-            "time": 1501550678116,
-            "messaging": [
-              {
-                "sender": {
-                  "id": "1542196132486930"
-                },
-                "recipient": {
-                  "id": "305722109839911"
-                },
-                "timestamp": 1501550678009,
-                "message": {
-                  "mid": "mid.$cAAFM_jj3asFjzKpX-Vdm2UEKP3A8",
-                  "seq": 299638,
-                  "attachments": [
-                    {
-                      "type": "image",
-                      "payload": {
-                        "url": "https://example.com/image.png"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "photos": {
-      "route": "/facebook/webhook",
-      "body": {
-      }
     }
   }
 }

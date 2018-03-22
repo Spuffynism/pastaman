@@ -1,7 +1,7 @@
-require_relative "../request_parser"
+require_relative '../request_parser'
 require 'ostruct'
 require 'uri'
-require "test/unit"
+require 'test/unit'
 
 class TestRequestParser < Test::Unit::TestCase
   RESOURCES_DIR = "test/resources/"
@@ -16,7 +16,21 @@ class TestRequestParser < Test::Unit::TestCase
   end
 
   def test_parse_and_get
-    fail
+    options = {
+        hostname: "test.host.name",
+        port: 81,
+        webhook_path: "/test/webhook/path",
+        requests_file: TEST_REQUESTS,
+        request: "test_message" # this request exists
+    }
+
+    request_parser = RequestParser::new options
+
+    request = request_parser.parse_and_get_request
+
+    assert_not_nil request[:uri]
+    assert_not_nil request[:route]
+    assert_not_nil request[:body]
   end
 
   def test_get_requests_no_request
@@ -24,7 +38,7 @@ class TestRequestParser < Test::Unit::TestCase
         requests_file: TEST_REQUESTS
     }
     assert_parse_and_get_request(RequestParser::new(options),
-                                 "/request not specified/")
+                                 /request not specified/)
   end
 
   def test_get_requests_not_found

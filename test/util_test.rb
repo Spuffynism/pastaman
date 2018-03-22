@@ -1,5 +1,5 @@
-require_relative "../util"
-require "test/unit"
+require_relative '../util'
+require 'test/unit'
 
 class TestUtil < Test::Unit::TestCase
   def test_parse_json
