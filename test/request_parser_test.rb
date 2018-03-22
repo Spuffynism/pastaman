@@ -6,78 +6,82 @@ require "test/unit"
 class TestRequestParser < Test::Unit::TestCase
   RESOURCES_DIR = "test/resources/"
   VALID_CONFIG_FILE_NAME = RESOURCES_DIR + "test_config.json"
+  TEST_REQUESTS = RESOURCES_DIR + "test_requests.json"
 
-  def test_sets_file_name
-    file_name = "test"
-    request_parser = RequestParser::new file_name
+  def test_set_options
+    options = {test: "test"}
+    request_parser = RequestParser::new options
 
-    assert_equal(file_name, request_parser.options)
+    assert_equal(options, request_parser.options)
   end
 
-  def test_parses_and_gets
+  def test_parse_and_get
     fail
   end
 
-  def test_fail_config_not_found
-    file_name = "test_file_that_does_not_exist.json"
-
-    assert_parse_and_get_request(RequestParser::new(file_name),
-                                 OpenStruct.new,
-                                 file_name + " not found in directory")
+  def test_get_requests_no_request
+    options = {
+        requests_file: TEST_REQUESTS
+    }
+    assert_parse_and_get_request(RequestParser::new(options),
+                                 "/request not specified/")
   end
 
-  def test_fail_config_not_json
-    invalid_json_config_file = RESOURCES_DIR + "test_config_invalid_json.json"
-
-    assert_parse_and_get_request(RequestParser::new(invalid_json_config_file),
-                                 OpenStruct.new,
-                                 /unexpected token at/)
-  end
-
-  def test_get_requests_from_config
-    #todo test "no requests found in filename"
-    fail
-  end
-
-  def test_fail_no_request_option
-    assert_parse_and_get_request(RequestParser::new(VALID_CONFIG_FILE_NAME),
-                                 OpenStruct.new,
-                                 /request not specified/)
-  end
-
-  def test_fail_non_existent_request
-    request_name = "request_that_does_not_exist"
-    options = OpenStruct.new({:request => request_name})
-
-    assert_parse_and_get_request(RequestParser::new(VALID_CONFIG_FILE_NAME),
-                                 options, "request not found : " + request_name)
+  def test_get_requests_not_found
+    invalid_request_name = "invalid request name"
+    options = {
+        requests_file: TEST_REQUESTS,
+        request: invalid_request_name
+    }
+    assert_parse_and_get_request(RequestParser::new(options),
+                                 /not found/)
   end
 
   def test_uri_used
-    uri = URI::HTTP.build(host: "test.uri", path: "/with/test/route")
+    uri = URI::HTTP.build(host: "test.uri", path: "/test/route")
 
-    request_parser = RequestParser::new VALID_CONFIG_FILE_NAME
-    options = OpenStruct.new ({
-        :uri => uri,
-        :request => "test_message" # this request exists
-    })
+    options = {
+        uri: uri,
+        requests_file: TEST_REQUESTS,
+        request: "test_message" # this request exists
+    }
+    request_parser = RequestParser::new options
 
-    request = request_parser.parse_and_get_request options
-    assert_equal(request["uri"].to_s, uri.to_s)
+    request = request_parser.parse_and_get_request
+    assert_equal(uri.to_s, request[:uri].to_s)
+  end
+
+  def test_uri_no_hostname
+    options = {
+        requests_file: TEST_REQUESTS,
+        request: "test_message" # this request exists
+    }
+    assert_parse_and_get_request(RequestParser::new(options),
+                                 "host must be specified")
+
   end
 
   def test_uri_built
-    fail
+    options = {
+        hostname: "test.host.name",
+        port: 81,
+        webhook_path: "/test/webhook/path",
+        requests_file: TEST_REQUESTS,
+        request: "test_message" # this request exists
+    }
+
+    request_parser = RequestParser::new options
+
+    request = request_parser.parse_and_get_request
+
+    expected_uri = "http://" + options[:hostname] + ":" + options[:port].to_s +
+        options[:webhook_path]
+    assert_equal(expected_uri, request[:uri].to_s)
   end
 
-  def test_build_uri_fail_host
-    fail
-  end
-
-  private def assert_parse_and_get_request(request_parser, options,
-                                           error_message)
+  private def assert_parse_and_get_request(request_parser, error_message)
     assert_raise_message(error_message) do
-      request_parser.parse_and_get_request options
+      request_parser.parse_and_get_request
     end
   end
 end

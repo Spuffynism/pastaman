@@ -1,3 +1,5 @@
+require 'json'
+
 class Util
   def self.parse_json_file file_name
     if file_name.nil?
@@ -13,6 +15,7 @@ class Util
     JSON.parse(config_file_content, symbolize_names: true)
   end
 
+  #TODO: move this somewhere else
   def self.override_options(current_options, new_options)
     {
         request: current_options[:request] || new_options[:request],

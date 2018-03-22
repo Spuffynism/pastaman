@@ -1,7 +1,6 @@
 require_relative 'util'
 require 'json'
-require 'ostruct'
-require 'uri' # not sure if this is needed
+require 'uri'
 
 class RequestParser
 
@@ -28,11 +27,11 @@ class RequestParser
 
     # code smell - feature envy
     # If an uri has been specified, use it. Otherwise, build it.
-    if @options[:uri]
+    if !@options[:uri].nil?
       request[:uri] = @options[:uri]
     else
       request[:uri] = build_uri(@options[:hostname], @options[:port],
-                                @options[:path])
+                                @options[:webhook_path])
     end
 
     request
