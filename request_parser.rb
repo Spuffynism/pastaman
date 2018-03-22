@@ -5,11 +5,11 @@ require 'uri'
 # Parses options to requests
 class RequestParser
 
+  attr_accessor :options
+
   def initialize(options)
     @options = options
   end
-
-  attr_accessor :options
 
   # Parses and returns the request specified in @options, using @options.
   def parse_and_get_request
@@ -49,7 +49,7 @@ class RequestParser
   # +host+:: the uri's host name
   # +port+:: the uri's port (may be nil)
   # +path+:: the uri's path (may be nil)
-  private def build_uri_from_parts (host, port, path)
+  private def build_uri_from_parts(host, port, path)
     unless host
       raise Exception, ("host must be specified")
     end

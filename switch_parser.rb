@@ -11,12 +11,16 @@ DEFAULT_OPTIONS = {
     times: 1,
 }
 
-# parses command-line switches
+# Parses command-line switches
 class SwitchParser
+
+  # Parses +args+ to a symbol-indexed hash
+  # Params:
+  # +args+:: arguments from the command line
   def self.parse(args)
     options = DEFAULT_OPTIONS
     config_file_options = Util.parse_json_file DEFAULT_CONFIG_FILE
-    options = Util.override_options(options, config_file_options)
+    options = override_options(options, config_file_options)
 
     switch_parser = OptionParser.new do |opts|
       opts.banner = "Usage: pastaman [options].\n" +
@@ -79,9 +83,22 @@ class SwitchParser
   end
 
   private
+
+  # Overrides +current_options+ options, if present in +new_options+
+  # Params:
+  # +current_options+:: the current options which will be overriden if an option
+  # of the same symbol is present in +new_options+
+  # +new_options+:: the new options which will override
+  def self.override_options(current_options, new_options)
+    current_options.each_key do |k|
+      current_options[k] = new_options.fetch(k, current_options[k])
+    end
+  end
+
+  # Raises an exception if the file does not exist
   def self.check_file_existence(file)
     unless File.exists?(file) && File.file?(file)
-      abort("file : " + file + " does not exist or is a directory")
+      raise Exception, ("file : " + file + " does not exist or is a directory")
     end
   end
 end
