@@ -23,6 +23,4 @@ $ ruby test/all_test.rb
 $ ruby test/${file_name}_test.rb
 ```
 ## TODO
-- Make use of all command line arguments
-- Add ability to load default configurations from config file
 - Complete tests
