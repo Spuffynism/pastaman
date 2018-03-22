@@ -1,6 +1,7 @@
 {
   "hostname": "localhost",
-  "port": 8443,
-  "webhook_url": "/facebook/webhook",
-  "requests": "requests.json"
+  "port": 80,
+  "webhook_path": "/facebook/webhook",
+  "requests_file": "requests/requests.json",
+  "times" : 1
 }

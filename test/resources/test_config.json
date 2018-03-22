@@ -1,6 +1,6 @@
 {
   "hostname": "localhost",
   "port": "8443",
-  "webhook_url": "/test",
-  "requests": "test/resources/test_requests.json"
+  "webhook_path": "/test",
+  "requests_file": "test/resources/test_requests.json"
 }

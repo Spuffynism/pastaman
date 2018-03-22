@@ -51,10 +51,7 @@ loop do
 
   socket.print "HTTP/1.1 200 OK\r\n" +
                    "Content-Type: application/json\r\n" +
-                   "Content-Length: #{response.bytesize}\r\n" +
-                   "Connexion: close\r\n"
-
-  socket.print "\r\n"
-  socket.print response
+                   "\r\n" +
+                   response
   socket.close
 end

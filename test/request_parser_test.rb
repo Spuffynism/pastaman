@@ -11,7 +11,7 @@ class TestRequestParser < Test::Unit::TestCase
     file_name = "test"
     request_parser = RequestParser::new file_name
 
-    assert_equal(file_name, request_parser.file_name)
+    assert_equal(file_name, request_parser.options)
   end
 
   def test_parses_and_gets
@@ -31,7 +31,7 @@ class TestRequestParser < Test::Unit::TestCase
 
     assert_parse_and_get_request(RequestParser::new(invalid_json_config_file),
                                  OpenStruct.new,
-                                 /unexpected\stoken\sat/)
+                                 /unexpected token at/)
   end
 
   def test_get_requests_from_config
@@ -42,7 +42,7 @@ class TestRequestParser < Test::Unit::TestCase
   def test_fail_no_request_option
     assert_parse_and_get_request(RequestParser::new(VALID_CONFIG_FILE_NAME),
                                  OpenStruct.new,
-                                 "request not specified")
+                                 /request not specified/)
   end
 
   def test_fail_non_existent_request
