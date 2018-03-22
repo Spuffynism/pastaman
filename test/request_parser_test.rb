@@ -5,7 +5,6 @@ require 'test/unit'
 
 class TestRequestParser < Test::Unit::TestCase
   RESOURCES_DIR = "test/resources/"
-  VALID_CONFIG_FILE_NAME = RESOURCES_DIR + "test_config.json"
   TEST_REQUESTS = RESOURCES_DIR + "test_requests.json"
 
   def test_set_options
