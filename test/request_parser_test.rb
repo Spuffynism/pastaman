@@ -1,5 +1,4 @@
 require_relative '../request_parser'
-require 'ostruct'
 require 'uri'
 require 'test/unit'
 

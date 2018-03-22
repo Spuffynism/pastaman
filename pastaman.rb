@@ -1,7 +1,6 @@
+require_relative 'switch_parser'
 require_relative 'request_parser'
 require_relative 'requester'
-require_relative 'switch_parser'
-require 'pp'
 
 # parse command line arguments
 options = SwitchParser.parse(ARGV)
