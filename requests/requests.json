@@ -1,34 +1,6 @@
 {
   "facebook_webhook_version": "v2.6",
   "requests": {
-    "ping_message": {
-      "route": "/facebook/webhook",
-      "body": {
-        "object": "page",
-        "entry": [
-          {
-            "id": "305722109839911",
-            "time": 1501550407033,
-            "messaging": [
-              {
-                "sender": {
-                  "id": "1542196132486930"
-                },
-                "recipient": {
-                  "id": "305722109839911"
-                },
-                "timestamp": 1501550406299,
-                "message": {
-                  "mid": "mid.$cAAFM_jj3asFjzKYym1dm2DiAjR28",
-                  "seq": 299578,
-                  "text": "ping"
-                }
-              }
-            ]
-          }
-        ]
-      }
-    },
     "hello_message": {
       "route": "/facebook/webhook",
       "body": {
@@ -85,11 +57,6 @@
         ]
       }
     },
-    "text_messages": {
-      "route": "/facebook/webhook",
-      "body": {
-      }
-    },
     "photo": {
       "route": "/facebook/webhook",
       "body": {
@@ -123,11 +90,6 @@
             ]
           }
         ]
-      }
-    },
-    "photos": {
-      "route": "/facebook/webhook",
-      "body": {
       }
     }
   }
